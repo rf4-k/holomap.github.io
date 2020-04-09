@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html><head>
+<script src="js/openseadragon.js"></script>
+<script src="js/openseadragon-bookmark-url.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="shortcut icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145408095-1"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'UA-145408095-1');
+</script>
+<title>アベレーション地図</title>
+</head><body>
+<nav>
+<ul>
+<li class="current"><a href="./">通常地図</a></li>
+</ul>
+<img src="images/center.gif">
+</nav>
+<main id="main"></main>
+<script type="text/javascript">
+	var viewer = OpenSeadragon({
+		id: "main", 
+		prefixUrl: "images/", 
+		showNavigator: true, 
+		tileSources: {
+			Image: {
+				xmlns:   "http://schemas.microsoft.com/deepzoom/2008",
+				Url:  "aberration_tiles/",
+				Format:   "jpg", 
+				Overlap:  "2", 
+				TileSize: "256",
+				Size: {
+					Height: "33600",
+					Width:	"33600"
+				}
+			}
+		}
+	});
+	viewer.bookmarkUrl();
+</script>
+</body>
+</html>
