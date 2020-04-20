@@ -46,3 +46,27 @@ nav>img {
 	user-select: none;
 	pointer-events: none;
 }
+
+/*------------------------------------*/
+div.Marker {
+	margin-left:-10px;
+	margin-top:-28px;
+	font-weight: bold;
+	-webkit-text-stroke: 0.05em #FFFFFF;
+}
+
+div.Marker>div:nth-of-type(1) {
+	width:auto;
+
+	float: left;
+}
+div.Marker>div:nth-of-type(2) {
+	width: calc(100% - 0.5em - 21px);
+	float: right;
+}
+
+div.Marker>div:nth-of-type(2)>img {
+	margin-right:0.5em;
+	width: 1em;
+}
+
