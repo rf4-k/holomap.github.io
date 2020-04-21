@@ -28,80 +28,98 @@
 <script type="text/javascript">
 
 
-
-
-
-	// 地図生成
-	var viewer = OpenSeadragon({
-		id: "main", 
-		prefixUrl: "images/", 
-		showNavigator: true, 
-		tileSources: {
-			Image: {
-				xmlns:   "http://schemas.microsoft.com/deepzoom/2008",
-				Url:  "aberration_tiles/",
-				Format:   "jpg", 
-				Overlap:  "2", 
-				TileSize: "256",
-				Size: {
-					Height: "33600",
-					Width:	"33600"
-				}
+	var liverfile = 'liver.csv';
+	var liver = [];
+	function readLiverCsv(data) {
+		var csv = $.csv.toArrays(data);
+		for(var i=0; i<csv.length; i++){
+			if(i>0){
+				liver[csv[i][1]] = {
+					ID:      csv[i][0], 
+					ICON:    csv[i][2],
+					TWITTER: csv[i][3],
+					FACE:    csv[i][4]
+				};
 			}
 		}
-	});
-
-	// 座標URL表示
-	viewer.bookmarkUrl();
-
-	// 変化検知
-	var imagingHelper = viewer.activateImagingHelper({onImageViewChanged: onImageViewChanged});
-	function onImageViewChanged(event) {
-		//alert(imagingHelper.getZoomFactor());
-		if(imagingHelper.getZoomFactor() > 0.18){
-			$("div.Marker>div:nth-of-type(2)").css('display','block');
-		} else {
-			$("div.Marker>div:nth-of-type(2)").css('display','none');
-		}
+		//alert(liver['さくらみこ']['ID']);
 	}
 
-	// HTML要素追加
-	var hEl = viewer.HTMLelements();
+	var markerfile = 'marker.csv';
+	var marker = [];
+	function readMarkerCsv(data) {
+		var csv = $.csv.toArrays(data);
+		for(var i=0; i<csv.length; i++) if(i>0) marker.push(csv[i]);
+	}
 
-	var M = [];
-	M[0] = document.createElement("div");
-	M[0].className = "Marker";
-	M[0].innerHTML = "<div><img src='images/marker_home.png' title='フブキング卿の拠点'></div><div><img src='https://image02.seesaawiki.jp/h/v/hololivetv/hJhJjoz8Cm.png'><br>フブキング卿の拠点</div>";
+	$.get(liverfile,  readLiverCsv,  'text');// ライバー情報
+	$.get(markerfile, readMarkerCsv, 'text');// マーカー情報
 
-	M[1] = document.createElement("div");
-	M[1].className = "Marker";
-	M[1].innerHTML = "<div><img src='images/marker_fort.png' title='まつり城'></div><div><img src='https://image01.seesaawiki.jp/h/v/hololivetv/dXF1amCTcN.png'><br>まつり城</div>";
+	$(document).ajaxStop(function() {
 
+		// 地図生成
+		var viewer = OpenSeadragon({
+			id: "main", 
+			prefixUrl: "images/", 
+			showNavigator: true, 
+			tileSources: {
+				Image: {
+					xmlns:   "http://schemas.microsoft.com/deepzoom/2008",
+					Url:  "aberration_tiles/",
+					Format:   "jpg", 
+					Overlap:  "2", 
+					TileSize: "256",
+					Size: {
+						Height: "33600",
+						Width:	"33600"
+					}
+				}
+			}
+		});
 
+		// 座標URL表示
+		viewer.bookmarkUrl();
 
-	hEl.addElement(
-		{
-			id: "M0",
-			element: M[0],
-			x: 520+332*27,
-			y: 620+326*44,
-			width: 800,
-			height: 800,
-			fontSize: 1.5
+		// 変化検知
+		var imagingHelper = viewer.activateImagingHelper({onImageViewChanged: onImageViewChanged});
+		function onImageViewChanged(event) {
+			//alert(imagingHelper.getZoomFactor());
+			if(imagingHelper.getZoomFactor() > 0.18){
+				$("div.Marker>div:nth-of-type(2)").css('display','block');
+			} else {
+				$("div.Marker>div:nth-of-type(2)").css('display','none');
+			}
 		}
-	)
-	hEl.addElement(
-		{
-			id: "M1",
-			element: M[1],
-			x: 520+332*29,
-			y: 620+326*44,
-			width: 800,
-			height: 800,
-			fontSize: 1.5
-		}
-	)
 
+		// HTML要素追加
+		var hEl = viewer.HTMLelements();
+		var M = [];
+		for(var i=0; i<marker.length; i++){
+			var face = "";
+			var f = marker[i][4].split(',');
+			$(f).each(function() {
+				if (this.length > 0) $(this).each(function() {face += "<img src='"+liver[this]['FACE']+"'>";});
+			});
+
+
+			M[i] = document.createElement("div");
+			M[i].className = "Marker";
+			M[i].innerHTML = "<div><img src='images/marker_"+marker[i][3]+".png' title='"+marker[i][2]+"【X"+marker[i][0]+"、Y"+marker[i][1]+"】\n"+marker[i][5]+"'></div><div>"+face+"<br>"+marker[i][2]+"</div>";
+
+			hEl.addElement(
+				{
+					id: "M"+i,
+					element: M[i],
+					x: 520+332*Number(marker[i][0]),
+					y: 620+326*Number(marker[i][1]),
+					width: 800,
+					height: 800,
+					fontSize: 1.5
+				}
+			)
+
+		}
+	});
 </script>
 </body>
 </html>
