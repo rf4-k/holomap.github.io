@@ -83,7 +83,7 @@
 		var imagingHelper = viewer.activateImagingHelper({onImageViewChanged: onImageViewChanged});
 		function onImageViewChanged(event) {
 			//alert(imagingHelper.getZoomFactor());
-			if(imagingHelper.getZoomFactor() > 0.18){
+			if(imagingHelper.getZoomFactor() > 0.1){
 				$("div.Marker>div:nth-of-type(2)").css('display','block');
 			} else {
 				$("div.Marker>div:nth-of-type(2)").css('display','none');
