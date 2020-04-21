@@ -68,5 +68,8 @@ div.Marker>div:nth-of-type(2) {
 div.Marker>div:nth-of-type(2)>img {
 	margin-right:0.5em;
 	width: 3em;
+	        border-radius: 20%;
+	-webkit-border-radius: 20%;
+	   -moz-border-radius: 20%;
 }
 
