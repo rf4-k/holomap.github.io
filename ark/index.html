@@ -16,11 +16,12 @@
 	gtag('js', new Date());
 	gtag('config', 'UA-145408095-1');
 </script>
-<title>アベレーション</title>
+<title>ホロライブARK：アベレーション</title>
 </head><body>
 <nav>
 <ul>
 <li class="current"><a href="./">アベレーション</a></li>
+<li><a href="./ragnarok.html">ラグナロク</a></li>
 </ul>
 <img src="images/center.gif">
 </nav>
@@ -44,7 +45,7 @@
 		}
 	}
 
-	var markerfile = 'marker.csv';
+	var markerfile = 'aberration.csv';
 	var marker = [];
 	function readMarkerCsv(data) {
 		var csv = $.csv.toArrays(data);
@@ -64,7 +65,7 @@
 			tileSources: {
 				Image: {
 					xmlns:   "http://schemas.microsoft.com/deepzoom/2008",
-					Url:  "aberration_tiles/",
+					Url:  "aberration/",
 					Format:   "jpg", 
 					Overlap:  "2", 
 					TileSize: "256",
